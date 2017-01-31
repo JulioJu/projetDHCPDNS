@@ -1,0 +1,39 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+// include "/etc/bind/zones.rfc1918";
+
+//  https://wiki.debian.org/fr/Bind9#Fichier_.2Fetc.2Fresolv.conf,
+//  http://www.cymea.net/dyndns-ubuntu-14-04-trusty/, bind9 reference manual
+
+// Gérer les fichiers de logs
+// include "/etc/bind/named.conf.log";
+
+// Gestion du domaine imss.org
+// ------------------------------
+//  - Le serveur est défini comme maître sur ce domaine
+//  - Il n'y a aucun forwarder pour ce domaine car nous avons la main mise
+//  dessus.
+//    Pour tous les autres domaines, nous utiliserons le forwarder mentionné
+//    dans *named.conf.options*
+//  - Les entrees sur le domaine peuvent être ajoutées dynamiquement avec le
+//  clef ns-example-com_rndc-key
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+// FOR ARCHLINUX, COMMENT line below, FOR DEBIAN : UNCOMMENT THIS.
+// include "/etc/bind/zones.rfc1918";
+
+zone "imss.org." {
+    type master;
+    file "/var/cache/bind/db.imss.org";
+};
+zone "1.168.192.in-addr.arpa." {
+    type master;
+    file "/var/cache/bind/db.imss.org.inv";
+};
+
+// vim: ft=c

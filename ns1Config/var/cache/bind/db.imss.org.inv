@@ -1,0 +1,16 @@
+$ORIGIN .
+$TTL 3660	; 1 hour 1 minute
+1.168.192.in-addr.arpa	IN SOA	ns1.imss.org. julioprayer.imss.org. (
+				2016061502 ; serial
+				3600       ; refresh (1 hour)
+				600        ; retry (10 minutes)
+				86400      ; expire (1 day)
+				600        ; minimum (10 minutes)
+				)
+			NS	ns1.imss.org.
+			NS	ns2.imss.org.
+$ORIGIN 1.168.192.in-addr.arpa.
+$TTL 60	; 1 minute
+132			PTR	blou.imss.org.
+253			PTR	ns2.imss.org.
+254			PTR	ns1.imss.org.

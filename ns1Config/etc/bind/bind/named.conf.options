@@ -1,0 +1,91 @@
+// Some options can be redifined in zones
+// —————————————————————————————————————
+options {
+    // directory "/var/cache/bind";
+
+    // // If there is a firewall between you and nameservers you want
+    // // to talk to, you may need to fix the firewall to allow multiple
+    // // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+    // // If your ISP provided one or more IP addresses for stable
+    // // nameservers, you probably want to use them as forwarders.
+    // // Uncomment the following block, and insert the addresses replacing
+    // // the all-0's placeholder.
+
+    // // forwarders {
+    // //   0.0.0.0;
+    // // };
+
+    // //========================================================================
+    // // If BIND logs error messages about the root key being expired,
+    // // you will need to update your keys.  See https://www.isc.org/bind-keys
+    // //========================================================================
+    dnssec-validation auto; // provides by origignal file
+
+    // From : https://wiki.debian.org/fr/Bind9
+
+    // Port d'échange entre les serveurs DNS
+    // query-source address* port*;
+
+    // Transmettre les requêtes à  192.168.1.1 si ce serveur ne sait pas
+    // résoudre ces adresses.
+    // On pourrait aussi bien renseigner les serveurs DNS du FAI plutôt que de
+    // renseigner
+    // l'adresse IP du routeur (xxxbox)
+    forward only;
+    forwarders {
+        // 212.27.40.240;
+        // 212.27.40.241;
+        192.168.2.1;
+    };
+
+    auth-nxdomain no; // conform to RFC1035
+
+    allow-update { key ns-imss-org_rndc-key; };
+
+    // Ecouter sur les interfaces locales uniquement (IPV4)
+    listen-on-v6 { none; };
+    listen-on { 127.0.0.1; 192.168.1.254; };
+
+    // Transmettre les informations de zones aux DNS secondaires
+    allow-transfer { 192.168.1.253; };
+ 
+    // bind9 reference manual :
+    /* DNS NOTIFY is a mechanism that allows master servers to notify their
+     * slave servers of changes to a */
+    /* zone’s data. In response to a NOTIFY from a master server, the slave will
+     * check to see that its version of */
+    /* the zone is the current version and, if not, initiate a zone transfer. */
+    notify yes;
+
+    // Accepter les requêtes pour le réseau interne uniquement
+    // allow-query { internals; }; // key-word « internals » doesn't work in this computer. See bind9 manual to see how it works
+
+    // Autoriser les requêtes récursives pour les hôtes locaux
+    // allow-recursion { internals; }; // key-word « internals » doesn't work in this computer. See bind9 manual to see how it works
+
+    // Ne pas rendre publique la version de BIND
+    version none;
+
+};
+
+// from bind9 reference manual :
+// $rndc reload
+// to connect to 127.0.0.1 port 953 and cause the name server to reload, if a name server on the local
+// machine were running with following controls statements:
+// controls {
+// inet 127.0.0.1
+// allow { localhost; } keys { rndc_key; };
+// };
+// and it had an identical key statement for rndc key.
+// Running the rndc-confgen program will conveniently create a rndc.conf file for you, and also
+// display the corresponding controls statement that you need to add to named.conf. Alternatively,
+// you can run rndc-confgen -a to set up a rndc.key file and not modify named.conf at all.
+
+// You must configure rndc befure use this encrypton
+controls {
+    inet 127.0.0.1 allow { localhost; }
+    keys { ns-imss-org_rndc-key; };
+};
+
+// vim: ft=c

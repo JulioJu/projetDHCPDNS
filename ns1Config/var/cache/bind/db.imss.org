@@ -1,0 +1,18 @@
+$ORIGIN .
+$TTL 3660	; 1 hour 1 minute
+imss.org		IN SOA	ns1.imss.org. julioprayer.imss.org. (
+				2016061538 ; serial
+				3600       ; refresh (1 hour)
+				600        ; retry (10 minutes)
+				86400      ; expire (1 day)
+				600        ; minimum (10 minutes)
+				)
+			NS	ns1.imss.org.
+			NS	ns2.imss.org.
+$ORIGIN imss.org.
+$TTL 60	; 1 minute
+blou			A	192.168.1.132
+			TXT	"0084cb9b81d5e01a7a2ae9b9d404664c3b"
+$TTL 3660	; 1 hour 1 minute
+ns1			A	192.168.1.254
+ns2			A	192.168.1.253
